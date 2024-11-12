@@ -1,4 +1,13 @@
 const prisma = require("../config/prisma")
+const cloudinary = require('cloudinary').v2;
+
+// Configuration
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 
 exports.create = async (req, res) => {
     try {
@@ -112,11 +121,31 @@ exports.remove = async (req, res) => {
     try {
         //code
         const { id } = req.params
+        // step 1  ค้นหาสินค้า include images
+        const product = await prisma.product.findFirst({
+            where:{id:Number(id)},
+            include:{images:true}
+        })
+        if(!product){
+            return res.status(404).json({Message:'Product not found'})
+        }
+        console.log(product)
+        // step 2 Promise ลบณุปภาพใน cloud ลบแบบ รอฉันด้วย 
+        const deleteImage = product.images.map((image)=> new Promise((resolve,reject)=>{
+            //ลบจาก cloud
+            cloudinary.uploader.destroy(image.public_id,(error,result)=>{
+                if(error) reject(error) 
+                    else resolve(result)
+            })
+        }))
+        await Promise.all(deleteImage)
+        // // step 3 ลบสินค้า
         await prisma.product.delete({
             where: {
                 id: Number(id)
             }
         })
+        
         res.send("Delete Success")
     } catch (err) {
         console.log(err)
@@ -149,7 +178,7 @@ const handleQuery = async (req, res, query) => {
                     contains: query,
                 }
             },
-            include:{
+            include: {
                 category: true,
                 images: true
             }
@@ -162,43 +191,43 @@ const handleQuery = async (req, res, query) => {
     }
 }
 
-const handlePrice =async(req,res,priceRange)=>{
-    try{
+const handlePrice = async (req, res, priceRange) => {
+    try {
         const products = await prisma.product.findMany({
-            where:{
-                price:{
-                    gte:priceRange[0],
-                    lte:priceRange[1]
+            where: {
+                price: {
+                    gte: priceRange[0],
+                    lte: priceRange[1]
                 }
             },
-            include:{
-                category:true,
-                images:true
+            include: {
+                category: true,
+                images: true
             }
         })
         res.send(products)
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(500).json({ Message: "Search error" });
     }
 }
-const handleCategory =async(req,res,categoryId)=>{
-    try{
+const handleCategory = async (req, res, categoryId) => {
+    try {
         const products = await prisma.product.findMany({
-            where:{
-                categoryId:{
-                    in:categoryId.map((id)=>Number(id))
+            where: {
+                categoryId: {
+                    in: categoryId.map((id) => Number(id))
                 }
             },
-            include:{
-                category:true,
-                images:true
+            include: {
+                category: true,
+                images: true
             }
         })
         res.send(products)
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         res.status(500).json({ Message: "Search error" });
     }
@@ -225,6 +254,38 @@ exports.searchFilters = async (req, res) => {
         }
 
         // res.send("Hello searchFilters product")
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: "server error" });
+    }
+}
+
+
+exports.createImages = async (req, res) => {
+    try {
+        //code
+        // console.log(req.body)
+        const result = await cloudinary.uploader.upload(req.body.image, {
+            public_id: `Wattanapongphan-${Date.now()}`,
+            resource_type: 'auto',
+            folder: 'Ecom2024'
+        })
+        res.send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: "server error" });
+    }
+}
+exports.removeimage = async (req, res) => {
+    try {
+        //code
+        const { public_id } = req.body
+        // console.log(public_id)
+        cloudinary.uploader.destroy(public_id, (result) => {
+            res.send('Remove Image Successful!!')
+        })
+
+
     } catch (err) {
         console.log(err)
         res.status(500).json({ error: "server error" });

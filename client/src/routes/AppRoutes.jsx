@@ -18,6 +18,7 @@ import LayoutAdmin from '../layouts/LayoutAdmin'
 import LayoutUser from '../layouts/LayoutUser'
 import ProtectRouteUser from './ProtectRouteUser'
 import ProtectRouteAdmin from './ProtectRouteAdmin'
+import EditProduct from '../pages/admin/EditProduct'
 
 
 
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
             { index: true, element: <Dashboard/> },
             { path: 'category', element: <Category /> },
             { path: 'product', element: <Product /> },
+            { path: 'product/:id', element: <EditProduct /> },
             { path: 'manage', element: <Manage /> },
         ]
     },
