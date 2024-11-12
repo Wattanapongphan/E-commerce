@@ -44,8 +44,8 @@ const FormProduct = () => {
 
     useEffect(() => {
         //code
-        getCategory(token)
-        getProduct(token, 100)
+        getCategory()
+        getProduct(100)
     }, [])
 
     const handleOnchange = ((e) => {
@@ -62,7 +62,7 @@ const FormProduct = () => {
             const res = await createProduct(token, form)
             console.log(res)
             setForm(initialState)
-            getProduct(token)
+            getProduct()
             toast.success(`เพิ่มข้อมูล ${res.data.title} สำเร็จ`)
         } catch (err) {
             console.log(err)
@@ -76,7 +76,7 @@ const FormProduct = () => {
                 const res = await deleteProduct(token, id)
                 toast.success('ลบสินค้าเรียบร้อยแล้ว')
                 console.log(res)
-                getProduct(token)
+                getProduct()
             } catch (err) {
                 console.log(err)
             }

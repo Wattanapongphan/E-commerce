@@ -34,7 +34,7 @@ const FormEditProduct = () => {
 
     useEffect(() => {
         //code
-        getCategory(token)
+        getCategory()
         fetchProduct(token, id, form)
     }, [])
 
