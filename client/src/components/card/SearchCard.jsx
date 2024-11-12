@@ -1,6 +1,8 @@
 //rafce
 import React, { useState, useEffect } from 'react'
 import useEcomStore from '../../store/ecom-store'
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 
 const SearchCard = () => {
@@ -14,6 +16,8 @@ const SearchCard = () => {
 
     const [text, setText] = useState('')
     const [categorySelected, setCategorySelected] = useState([])
+    const [price,setPrice] = useState([1000,30000])
+    const [ok,setOk] = useState(false)
 
     console.log(categories)
     useEffect(() => {
@@ -49,7 +53,7 @@ const SearchCard = () => {
         }
         setCategorySelected(inState)
 
-        if (inState > 0) {
+        if (inState.length > 0) {
             actionSearchFilters({ category: inState })
         } else {
             getProduct()
@@ -59,6 +63,16 @@ const SearchCard = () => {
     console.log(categorySelected)
 
     // Step 3 Search by Price
+    useEffect(()=>{
+        actionSearchFilters({price})
+    },[ok])
+    const handlePrice = (value)=>{
+        console.log(value)
+        setPrice(value)
+        setTimeout(()=>{
+            setOk(!ok)
+        },300)
+    }
 
     return (
         <div>
@@ -72,7 +86,7 @@ const SearchCard = () => {
                 <div>
                     {
                         categories.map((item, index) =>
-                            <div className='flex gap-2'>
+                            <div key={index} className='flex gap-2'>
                                 <input type='checkbox'
                                     onChange={handleCheck}
                                     value={item.id}
@@ -81,6 +95,25 @@ const SearchCard = () => {
                             </div>
                         )
                     }
+                </div>
+            </div>
+            <hr />
+            {/* Search by Price */}
+            <div>
+                <h1>ค้นหาราคา</h1>
+                <div>
+                    <div className='flex justify-between'>
+                        <span>Min : {price[0]}</span>
+                        <span>Max : {price[1]}</span>
+                    </div>
+
+                    <Slider
+                    onChange={handlePrice}
+                    range
+                    min={0}
+                    max={100000}
+                    defaultValue={[1000,30000]}
+                    />
                 </div>
             </div>
 
