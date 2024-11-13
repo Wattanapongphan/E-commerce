@@ -19,13 +19,13 @@ const SearchCard = () => {
     const [price,setPrice] = useState([1000,30000])
     const [ok,setOk] = useState(false)
 
-    console.log(categories)
+    // console.log(categories)
     useEffect(() => {
         getCategory()
     }, [])
 
     // Step 1 Search Text
-    console.log(text)
+    // console.log(text)
     useEffect(() => {
         //code
         const delay = setTimeout(() => {
@@ -60,7 +60,7 @@ const SearchCard = () => {
         }
 
     }
-    console.log(categorySelected)
+    // console.log(categorySelected)
 
     // Step 3 Search by Price
     useEffect(()=>{

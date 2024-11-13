@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import ProductCard from '../components/card/ProductCard'
 import useEcomStore from '../store/ecom-store'
 import SearchCard from '../components/card/SearchCard'
+import CratCard from '../components/card/CratCard'
 
 const Shop = () => {
   const getProduct = useEcomStore((state)=>state.getProduct)
@@ -35,7 +36,7 @@ const Shop = () => {
 
       {/* Cart */}
     <div className='w-1/4 p-4 bg-gray-100 overflow-y-auto'> 
-      Cart
+      <CratCard/>
     </div>
 
     </div>
