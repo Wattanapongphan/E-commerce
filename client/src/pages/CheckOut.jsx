@@ -1,9 +1,12 @@
 //rafce
 import React from 'react'
+import SummaryCard from '../components/card/SummaryCard'
 
 const CheckOut = () => {
   return (
-    <div>CheckOut</div>
+    <div>
+      <SummaryCard/>
+    </div>
   )
 }
 
