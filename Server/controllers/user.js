@@ -175,6 +175,16 @@ exports.saveAddress = async(req,res)=>{
 exports.saveOrder = async(req,res)=>{
     try{
         //code
+        // Step 0 Check Stripe
+        // console.log(req.body)
+        // return res.send('Hello jukkru!!!!')
+        // stripePaymentId String
+        // amount Int
+        // status String
+        // currentcy String
+
+        const {id,amount,status,currency} = req.body.paymentIntent
+
         //step 1 get user cart
         const userCart = await prisma.cart.findFirst({
             where:{
@@ -188,19 +198,19 @@ exports.saveOrder = async(req,res)=>{
             return res.status(400).json({ok:false,message:'Cart is Empty'})
         }
         // Check quantity
-        for(const item of userCart.products){
-            // console.log(item)
-            const product = await prisma.product.findUnique({
-                where:{id:item.productId},
-                select:{quantity:true,title:true}
-            })
-            console.log(item)
-            console.log(product)
-            if(!product || item.count > product.quantity){
-                return res.status(400).json({ok:false,message:`ขออภัย. สินค้า ${product?.title || 'product' } หมดแล้ว`})
-            }
-        }
-        
+        // for(const item of userCart.products){
+        //     // console.log(item)
+        //     const product = await prisma.product.findUnique({
+        //         where:{id:item.productId},
+        //         select:{quantity:true,title:true}
+        //     })
+        //     console.log(item)
+        //     console.log(product)
+        //     if(!product || item.count > product.quantity){
+        //         return res.status(400).json({ok:false,message:`ขออภัย. สินค้า ${product?.title || 'product' } หมดแล้ว`})
+        //     }
+        // }
+        const amountTHB = Number(amount) / 100
         //create a new order
         const order = await prisma.order.create({
             data:{
@@ -214,9 +224,19 @@ exports.saveOrder = async(req,res)=>{
                 orderedBy:{
                     connect:{id:req.user.id}
                 },
-                cartTotal:userCart.cartTotal
+                cartTotal:userCart.cartTotal,
+                stripePaymentId:id,
+                amount:amountTHB,
+                status:status,
+                currency:currency
+                
             }
         })
+
+        // stripePaymentId String
+        // amount Int
+        // status String
+        // currentcy String
 
         //update Product
         const update = userCart.products.map((item)=>({
