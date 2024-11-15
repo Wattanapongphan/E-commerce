@@ -14,12 +14,12 @@ const MainNav = () => {
                     <div className='flex items-center gap-4'>
                         <Link to={'/'} className='text-2xl font-bold'>Logo</Link>
                         <Link to={'/'}>Home</Link>
-                        <Link to={'shop'}>Shop</Link>
+                        <Link to={'/shop'}>Shop</Link>
 
                         {/* Badge */}
 
 
-                        <Link to={'cart'} className='relative py-4'>
+                        <Link to={'/cart'} className='relative py-4'>
                             Cart
                             {carts.length > 0
                                 && (<span
@@ -35,8 +35,8 @@ const MainNav = () => {
                     </div>
 
                     <div className='flex items-center gap-4'>
-                        <Link to={'register'}>Register</Link>
-                        <Link to={'login'}>Login</Link>
+                        <Link to={'/register'}>Register</Link>
+                        <Link to={'/login'}>Login</Link>
                     </div>
                 </div>
 

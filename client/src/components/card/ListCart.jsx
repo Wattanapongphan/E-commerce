@@ -25,7 +25,8 @@ const ListCart = () => {
             navigate('/checkout')
         })
         .catch((err)=>{
-            console.log(err);
+            console.log("err",err);
+            toast.warning(err.response.data.message)
         })
     }
 
