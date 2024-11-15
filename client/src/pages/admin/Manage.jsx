@@ -1,9 +1,12 @@
 //rafce
 import React from 'react'
+import TableUsers from '../../components/admin/TableUsers'
 
 const Manage = () => {
   return (
-    <div>Manage</div>
+    <div>
+      <TableUsers/>
+    </div>
     
   )
 }

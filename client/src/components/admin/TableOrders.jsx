@@ -4,6 +4,7 @@ import { getOrdersAdmin, changeOrderStatus } from '../../api/admin'
 import useEcomStore from '../../store/ecom-store'
 import { toast } from 'react-toastify'
 import { numberFormat } from '../../utils/number'
+import { dateFormat } from '../../utils/dateformat'
 
 const TableOrders = () => {
   const token = useEcomStore((s) => s.token)
@@ -61,6 +62,7 @@ const TableOrders = () => {
             <tr className='bg-gray-200 border'>
               <th>ลำดับ</th>
               <th>ผู้ใช้งาน</th>
+              <th>วันที่</th>
               <th>สินค้า</th>
               <th>รวม</th>
               <th>สถานะ</th>
@@ -78,6 +80,8 @@ const TableOrders = () => {
                       <p>{item.orderedBy.email}</p>
                       <p>{item.orderedBy.address}</p>
                     </td>
+
+                    <td>{dateFormat(item.createdAt)}</td>
 
                     <td className='px-2 py-4'>
 
