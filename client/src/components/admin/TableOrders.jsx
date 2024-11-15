@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { getOrdersAdmin, changeOrderStatus } from '../../api/admin'
 import useEcomStore from '../../store/ecom-store'
 import { toast } from 'react-toastify'
+import { numberFormat } from '../../utils/number'
 
 const TableOrders = () => {
   const token = useEcomStore((s) => s.token)
@@ -84,14 +85,14 @@ const TableOrders = () => {
                         item.products?.map((product, index) =>
                           <li>
                             {product.product.title} {" "}
-                            <span className='text-sm'>{product.count} x {product.product.price}</span>
+                            <span className='text-sm'>{product.count} x {numberFormat(product.product.price)}</span>
                           </li>
                         )
                       }
 
                     </td>
 
-                    <td>{item.cartTotal}</td>
+                    <td>{numberFormat(item.cartTotal)}</td>
 
 
 
