@@ -8,3 +8,13 @@ export const getOrdersAdmin = async(token)=>{
         }
     })
 }
+export const changeOrderStatus = async(token,orderId,orderStatus)=>{
+    //code body
+    return axios.put('http://localhost:5000/api/admin/order-status',{
+        orderId,orderStatus
+    },{
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    })
+}
