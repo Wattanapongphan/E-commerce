@@ -17,7 +17,7 @@ const HistoryCard = () => {
     const handleGetOrders = (token) => {
         getOrders(token)
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 setOrders(res.data.orders)
             })
             .catch((err) => {
@@ -50,18 +50,21 @@ const HistoryCard = () => {
                                 {/* table Loop product*/}
                                 <div className='p-2'>
                                     <table className='border w-full'>
+                                        <thead>
+
                                             <tr className='bg-gray-200'>
                                                 <th>สินค้า</th>
                                                 <th>ราคา</th>
                                                 <th>จำนวน</th>
                                                 <th>รวม</th>
                                             </tr>
+                                        </thead>
                                         <tbody>
                                             {
                                                 item.products?.map((product,index) => {
-                                                    console.log(product)
+                                                    // console.log(product)
                                                     return (
-                                                        <tr>
+                                                        <tr key={index}>
                                                             <td>{product.product.title}</td>
                                                             <td>{product.product.price}</td>
                                                             <td>{product.count}</td>
