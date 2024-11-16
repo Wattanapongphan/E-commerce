@@ -3,12 +3,14 @@ import React from 'react'
 import { ShoppingCart } from 'lucide-react';
 import useEcomStore from '../../store/ecom-store';
 import { numberFormat } from '../../utils/number';
+import { motion } from "framer-motion"
 
 const ProductCard = ({ item }) => {
     const actionAddtoCart = useEcomStore((state)=>state.actionAddtoCart)
 
     // console.log(item)
     return (
+        <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }}>
         <div className='border rounded-md shadow-md p-2 w-48'>
             <div>
                 {
@@ -33,6 +35,7 @@ const ProductCard = ({ item }) => {
             </div>
 
         </div>
+        </motion.button>
     )
 }
 

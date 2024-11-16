@@ -58,7 +58,7 @@ const HistoryCard = () => {
                                         <p className='font-bold'>{dateFormat(item.updatedAt)}</p>
                                     </div>
                                     {/* Right */}
-                                    <div className={`${getStatusColor(item.orderStatus)} px-2 py-1  rounded-full`}>
+                                    <div className={`${getStatusColor(item.orderStatus)} px-2 py-2   rounded-full`}>
                                         {item.orderStatus}
                                     </div>
                                 </div>

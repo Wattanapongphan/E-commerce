@@ -1,7 +1,7 @@
 //rafce
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, ChartNoAxesGantt ,ChartBarStacked ,ShoppingBasket ,LogOut  } from 'lucide-react';
+import { LayoutDashboard,UserRoundCog , ChartNoAxesGantt ,ChartBarStacked ,ShoppingBasket ,LogOut ,ListOrdered  } from 'lucide-react';
 
 
 const SidebarAdmin = () => {
@@ -33,7 +33,7 @@ const SidebarAdmin = () => {
                             : 'text-gray-300 px-4 py-2 hover:bg-gray-500 hover:text=white rounded flex items-center'
                     }
                 >
-                    <ChartNoAxesGantt className='mr-2' />
+                    <UserRoundCog  className='mr-2' />
 
                     Manage
                 </NavLink>
@@ -71,7 +71,7 @@ const SidebarAdmin = () => {
                             : 'text-gray-300 px-4 py-2 hover:bg-gray-500 hover:text=white rounded flex items-center'
                     }
                 >
-                    <ShoppingBasket className='mr-2' />
+                    <ListOrdered  className='mr-2' />
                     Orders
                 </NavLink>
             </nav>

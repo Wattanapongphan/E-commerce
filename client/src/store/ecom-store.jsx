@@ -79,6 +79,9 @@ const ecomStore = (set,get)=>({
         } catch (err) {
             console.log(err)
         }
+    },
+    clearCart: ()=> {
+        set({carts:[]})
     }
 })
 

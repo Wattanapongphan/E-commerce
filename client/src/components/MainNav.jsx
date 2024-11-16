@@ -1,6 +1,6 @@
 //rafce
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import useEcomStore from "../store/ecom-store"
 
 const MainNav = () => {
@@ -8,18 +8,48 @@ const MainNav = () => {
     console.log(carts.length)
 
     return (
-        <nav className='bg-gray-300'>
+        <nav className='bg-white shadow-md'>
             <div className='mx=auto px-4'>
                 <div className='flex justify-between h-16'>
                     <div className='flex items-center gap-4'>
-                        <Link to={'/'} className='text-2xl font-bold'>Logo</Link>
-                        <Link to={'/'}>Home</Link>
-                        <Link to={'/shop'}>Shop</Link>
+
+
+                        <Link to={'/'} 
+                        className= 'text-2xl font-bold'>
+                            Logo
+                        </Link>
+                        
+                        
+                        
+                        <NavLink to={'/'} 
+                        className= {({isActive})=>
+                            isActive
+                        ?'bg-gray-200 rounded-md px-3 py-2 text-sm font-medium'
+                        :'hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium '
+                        }>
+                        Home
+                        </NavLink>
+                        
+                        
+                        
+                        <NavLink 
+                        to={'/shop'}
+                        className= {({isActive})=>
+                            isActive
+                        ?'bg-gray-200 rounded-md px-3 py-2 text-sm font-medium'
+                        :'hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium '
+                        }
+                        >Shop</NavLink>
 
                         {/* Badge */}
 
 
-                        <Link to={'/cart'} className='relative py-4'>
+                        <NavLink to={'/cart'} 
+                        className= {({isActive})=>
+                            isActive
+                        ?'bg-gray-200 rounded-md px-3 py-2 text-sm font-medium'
+                        :'hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium '
+                        }>
                             Cart
                             {carts.length > 0
                                 && (<span
@@ -28,15 +58,32 @@ const MainNav = () => {
                                     {carts.length}
                                 </span>)
                             }
-                        </Link>
+                        </NavLink>
 
 
 
                     </div>
 
                     <div className='flex items-center gap-4'>
-                        <Link to={'/register'}>Register</Link>
-                        <Link to={'/login'}>Login</Link>
+                        <NavLink to={'/register'}
+                        className= {({isActive})=>
+                            isActive
+                        ?'bg-gray-200 rounded-md px-3 py-2 text-sm font-medium'
+                        :'hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium '
+                        }
+                        >
+                        Register
+                        </NavLink>
+
+                        <NavLink to={'/login'}
+                        className= {({isActive})=>
+                            isActive
+                        ?'bg-gray-200 rounded-md px-3 py-2 text-sm font-medium'
+                        :'hover:bg-gray-200 rounded-md px-3 py-2 text-sm font-medium '
+                        }
+                        >
+                        Login
+                        </NavLink>
                     </div>
                 </div>
 
