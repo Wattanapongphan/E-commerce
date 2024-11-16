@@ -90,7 +90,7 @@ const MainNav = () => {
 
                         {
                         isOpen && 
-                        <div className='absolute top-16 bg-white shadow-md'>
+                        <div className='absolute top-16 bg-white shadow-md z-50'>
                             <Link 
                             to={'/user/history'}
                             className='block px-4 py-2 hover:bg-gray-200'>

@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   //javascript
   const navigate = useNavigate()
-  const actionLogin = useEcomStore((state)=>state.actionLogin)
-  const user = useEcomStore((state)=>state.user)
-  console.log('user form zustand',user)
+  const actionLogin = useEcomStore((state) => state.actionLogin)
+  const user = useEcomStore((state) => state.user)
+  console.log('user form zustand', user)
 
 
   const [form, setForm] = useState({
@@ -30,50 +30,62 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     //send to back
-    try{
+    try {
       const res = await actionLogin(form)
       const role = res.data.payload.role
-      console.log('role',role)
+      console.log('role', role)
       roleRedirect(role)
       toast.success("Login Success")
-    }catch(err){
+    } catch (err) {
       console.log(err)
       const errMsg = err.response?.data?.message
       toast.error(errMsg)
     }
   }
 
-  const roleRedirect = (role)=>{
-    if(role === 'admin'){
+  const roleRedirect = (role) => {
+    if (role === 'admin') {
       navigate('/admin')
-    }else{
+    } else {
       navigate(-1)
     }
   }
 
 
   return (
-    <div>
-      Login
-      <form onSubmit={handleSubmit}>
-        Email
-        <input className='border'
-          onChange={handleOnChange}
-          name='email'
-          type='email'
-        />
+    <div className='min-h-screen flex items-center justify-center bg-gray-100 '>
 
-        Password
-        <input className='border'
-          onChange={handleOnChange}
-          name='password' type='text'
-        />
-
-        <button className='bg-blue-500 rounded-md'>
+      <div className='w-full shadow-md bg-white p-8 max-w-md'>
+        <h1 className='text-2xl text-center my-4 font-bold'>
           Login
-        </button>
+        </h1>
 
-      </form>
+
+        <form onSubmit={handleSubmit}>
+          <div className='space-y-4'>
+
+            <input placeholder='Email' className='border w-full px-3 py-2 rounded-md
+        focus:outline-none focus:ring-2 focus:ring-blue-500
+        focus:border-transparent'
+              onChange={handleOnChange}
+              name='email'
+              type='email'
+            />
+
+            <input placeholder='Password' className='border w-full px-3 py-2 rounded-md
+        focus:outline-none focus:ring-2 focus:ring-blue-500
+        focus:border-transparent'
+              onChange={handleOnChange}
+              name='password' type='text'
+            />
+
+            <button
+              className='bg-blue-500 rounded-md w-full text-white p-2 font-bold shadow-md hover:bg-blue-600'>
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
 
     </div>
   )

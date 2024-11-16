@@ -129,13 +129,6 @@ const Register = () => {
         }
       </div>
 
-
-
-
-
-
-
-
         <div>
         <input {...register('confirmPassword')}
         type='password'
