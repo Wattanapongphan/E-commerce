@@ -1,98 +1,108 @@
 import axios from 'axios'
-import {create} from 'zustand'
-import { persist,createJSONStorage} from 'zustand/middleware'
+import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { listCategory } from '../api/Category'
-import { listProduct,searchFilters } from '../api/Product'
+import { listProduct, searchFilters } from '../api/Product'
 import _, { isEqual } from 'lodash'
 
-const ecomStore = (set,get)=>({
-    user:null,
-    token:null,
-    categories:[],
-    products:[],
-    carts:[],
+const ecomStore = (set, get) => ({
+    user: null,
+    token: null,
+    categories: [],
+    products: [],
+    carts: [],
+    logout: () => {
+        set({
+            user: null,
+            token: null,
+            categories: [],
+            products: [],
+            carts: [],
+        })
+    },
 
-    actionAddtoCart:(product)=>{
+
+    actionAddtoCart: (product) => {
         const carts = get().carts
-        const updateCart = [...carts,{...product,count:1}]
+        const updateCart = [...carts, { ...product, count: 1 }]
 
         //Step Uniqe
-        const Uniqe = _.unionWith(updateCart,_.isEqual)
+        const Uniqe = _.unionWith(updateCart, _.isEqual)
         // console.log('Click add in Zustand',updateCart)
         // console.log('Uniqe',Uniqe)
 
-        set({carts:Uniqe})
+        set({ carts: Uniqe })
     },
-    actionUpdateQuantity:(productId,newQuantity)=>{
+    actionUpdateQuantity: (productId, newQuantity) => {
         // console.log('Update quantity',productId,newQuantity)
-        set((state)=>({
-            carts:state.carts.map((item)=>
+        set((state) => ({
+            carts: state.carts.map((item) =>
                 item.id === productId
-                ?{...item,count: Math.max(1,newQuantity)}
-                : item
-            
+                    ? { ...item, count: Math.max(1, newQuantity) }
+                    : item
+
             )
         }))
     },
-    actionRemoveProduct:(productId)=>{
+    actionRemoveProduct: (productId) => {
         // console.log('Remove product',productId)
-        set((state)=>({
-            carts:state.carts.filter((item)=>
+        set((state) => ({
+            carts: state.carts.filter((item) =>
                 item.id !== productId
             )
         }))
     },
-    getTotalPrice:()=>{
-        return get().carts.reduce((total,item)=>{
+    getTotalPrice: () => {
+        return get().carts.reduce((total, item) => {
             return total + item.price * item.count
-        },0)
+        }, 0)
     },
-    actionLogin:async(form)=>{
-        const res = await axios.post('http://localhost:5000/api/login',form)
+    actionLogin: async (form) => {
+        const res = await axios.post('http://localhost:5000/api/login', form)
         // console.log(res.data.token)
         set({
-            user:res.data.payload,
-            token:res.data.token
+            user: res.data.payload,
+            token: res.data.token
         })
         return res
     },
-    getCategory : async () => {
+    getCategory: async () => {
         try {
             const res = await listCategory()
-            set({categories:res.data})
+            set({ categories: res.data })
         } catch (err) {
             console.log(err)
         }
     },
-    getProduct : async (count) => {
+    getProduct: async (count) => {
         try {
             const res = await listProduct(count)
-            set({products:res.data})
+            set({ products: res.data })
         } catch (err) {
             console.log(err)
         }
     },
-    actionSearchFilters : async (arg) => {
+    actionSearchFilters: async (arg) => {
         try {
             const res = await searchFilters(arg)
-            set({products:res.data})
+            set({ products: res.data })
         } catch (err) {
             console.log(err)
         }
     },
-    clearCart: ()=> {
-        set({carts:[]})
+    clearCart: () => {
+        set({ carts: [] })
     }
 })
 
 
 const usePersist = {
-    name:'ecom-store',
-    Storage:createJSONStorage(()=>localStorage)
+    name: 'ecom-store',
+    Storage: createJSONStorage(() => localStorage)
 }
 
 
-const useEcomStore = create(persist(ecomStore,usePersist))
+const useEcomStore = create(persist(ecomStore, usePersist))
 
 export default useEcomStore
 
