@@ -9,8 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -45,18 +46,18 @@ model Product {
 }
 
 model Order {
-  id          Int              @id @default(autoincrement())
-  cartTotal   Float
-  orderStatus String           @default("Not Process")
-  products    ProductOnOrder[]
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  orderedBy   User             @relation(fields: [orderedById], references: [id])
-  orderedById Int
+  id              Int              @id @default(autoincrement())
+  cartTotal       Float
+  orderStatus     String           @default("Not Process")
+  products        ProductOnOrder[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  orderedBy       User             @relation(fields: [orderedById], references: [id])
+  orderedById     Int
   stripePaymentId String
-  amount Int
-  status String
-  currency String
+  amount          Int
+  status          String
+  currency        String
 }
 
 model ProductOnOrder {

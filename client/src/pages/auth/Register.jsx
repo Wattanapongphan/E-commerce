@@ -6,8 +6,11 @@ import { useForm } from "react-hook-form"
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zxcvbn from 'zxcvbn'
+import { useNavigate } from 'react-router-dom';
+
 
 const registerSchema = z.object({
+  
   email: z.string().email({ message: 'Email ไม่ถูกต้อง !!!' }),
   password: z.string().min(8, { message: 'Pasword ต้องมากกว่า 8 ตัวอักษร' }),
   confirmPassword: z.string()
@@ -18,6 +21,8 @@ const registerSchema = z.object({
 
 const Register = () => {
   //javascript
+  const navigate = useNavigate()
+
   const [passwordScore, setPasswordpasswordScore] = useState(0)
 
 

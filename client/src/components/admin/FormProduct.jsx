@@ -13,12 +13,12 @@ import { dateFormat } from '../../utils/dateformat';
 
 const initialState = {
 
-    "title": "",
-    "description": "",
-    "price": 0,
-    "quantity": 0,
-    "categoryId": '',
-    "images": []
+    title: "",
+    description: "",
+    price: 0,
+    quantity: 0,
+    categoryId: '',
+    images: []
 
 }
 
@@ -33,14 +33,13 @@ const FormProduct = () => {
 
 
     const [form, setForm] = useState({
-
-        "title": "",
-        "description": "",
-        "price": 0,
-        "quantity": 0,
-        "categoryId": '',
-        "images": []
-
+        title: "",
+        description: "",
+        price: 0,
+        quantity: 0,
+        categoryId: '',
+        images: []
+    
     })
 
 
