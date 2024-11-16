@@ -2,6 +2,8 @@
 import React,{useState,useEffect} from 'react'
 import {listProductBy} from '../../api/Product'
 import ProductCard from '../card/ProductCard'
+import SwiperShowProduct from '../../utils/SwiperShowProduct'
+import { SwiperSlide } from 'swiper/react'
 
 const BestSeller = () => {
     const [data,setData] = useState([])
@@ -12,7 +14,7 @@ const BestSeller = () => {
     },[])
 
     const loadData = () => {
-        listProductBy('sold','desc',6)
+        listProductBy('sold','desc',12)
         .then((res) =>{
             setData(res.data)
         }).catch((error) =>{
@@ -21,13 +23,15 @@ const BestSeller = () => {
     }
 console.log(data)
   return (
-    <div className='flex flex-wrap gap-4 '>
+    <SwiperShowProduct>
         {
             data?.map((item,index)=>
-               <ProductCard key={index} item={item}/> 
+                <SwiperSlide>
+                    <ProductCard key={index} item={item}/> 
+                </SwiperSlide>
             )
         }
-    </div>
+    </SwiperShowProduct>
   )
 }
 
